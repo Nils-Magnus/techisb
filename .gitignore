@@ -2,5 +2,5 @@ cred.txt
 apikey.txt
 *.sw?
 *~
-data/*
-web/*
+data/*.json
+web/*.html
