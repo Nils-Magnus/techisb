@@ -3,15 +3,15 @@
 # collect events from all source streams
 for i in collector-*; do
     echo "Collect from $i ..."
-    (cd $i && make run)
+    (cd $i && make build run)
 done
 
 # merge them together
 echo "Merging events ..."
-(cd merger && make run)
+(cd merger && make build run)
 
 # start nginx if not running
-if netstat -lnt | grep -q :8088; then
+if netstat -lnt | grep -q :80; then
     echo "Server is already running. Skipping."
 else
     echo "Starting webserver ..."
