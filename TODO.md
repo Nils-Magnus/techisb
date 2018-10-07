@@ -9,4 +9,6 @@ product backlog:
   - set up impressum
   - set up VM
   - register github project
+  - PR powered event upload mechanism
+  - PR powered event stream upload mechanism
   
