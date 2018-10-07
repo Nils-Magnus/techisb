@@ -8,7 +8,18 @@ product backlog:
   - set up TLS certificate
   - set up impressum
   - set up VM
+  - use logo
+  - implement "make clean"
+  - commit do_update.sh
+  - provide favicon.ico
+  - write teaser/faq texts
+  - Document how to get your event listed
+  - Disregard past events
+  - Robustness against errors
   - register github project
   - PR powered event upload mechanism
   - PR powered event stream upload mechanism
-  
+  - Create useful logfiles that allow for problem analysis
+  - Monitoring for errors
+  - Allow for useful client-side sorting
+  - Merge from more data sources like e. g. eventbrite
