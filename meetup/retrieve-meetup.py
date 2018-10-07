@@ -1,15 +1,20 @@
 import requests
 from   requests.auth import HTTPDigestAuth
 import json
+from jinja2 import Template
+import pprint
+import datetime
 
-apikey = "00000000000000000000000000000"
 
-api = "https://api.meetup.com/"
+#import code; code.interact(local=dict(globals(), **locals()))
 
-req = api + "find/upcoming_events"
+def retrieve_meetup_events():
+    api = "https://api.meetup.com/"
 
-with open("apikey.txt", "r") as keyfile:
-    apikey = keyfile.read().strip()
+    req = api + "find/upcoming_events"
+
+    with open("apikey.txt", "r") as keyfile:
+        apikey = keyfile.read().strip()
 
 # resp = requests.get(req,
 #                     data={'key':'value'},
@@ -17,45 +22,35 @@ with open("apikey.txt", "r") as keyfile:
 #                                         raw_input("Password: ")),
 #                     verify=True)
 
-resp = requests.get(req,
-                    params={"sign":       "true",
-                            "photo-host": "public",
-                            "page":       20,
-                            "key":        apikey})
+    #import code; code.interact(local=dict(globals(), **locals()))
+    resp = requests.get(req,
+                        params={ "key":        apikey})
 
 
-print("We retrieved the URL " + resp.url + " ...\n")
+    #print("We retrieved the URL " + resp.url + " ...\n")
 
-if (resp.ok):
+    if (resp.ok):
 
-    # Loading the response data into a dict variable
-    # json.loads takes in only binary or string variables so using content to fetch binary content
-    # Loads (Load String) takes a Json file and converts into python data structure (dict or list, depending on JSON)
-    all = json.loads(resp.content)
-    result = all["events"]
-    
-    print("The response contains {0} properties:\n".format(len(result)))
+        # Loading the response data into a dict variable
+        # json.loads takes in only binary or string variables so using content to fetch binary content
+        # Loads (Load String) takes a Json file and converts into python data structure (dict or list, depending on JSON)
+        events = json.loads(resp.content)['events']
 
-    for event in result:
-        print("--------------------------------------------------------------\n")
-        # print(event["name"] + "\n")
-        # print(json.dumps(event, indent=4, sort_keys=True))
-       
-        line = "{0} {1} {2} {4}\n".format(event["local_date"],
-                                              event["local_time"],
-                                              event["name"],
-                                              event["venue"]["address_1"],
-                                              event["link"])
-#        line = event["venue"]["address_1"]
-        #line = event["link"]
-        print(line)
-        
+        with open("templates/index.template", "r") as template_file:
+            events_template = Template(template_file.read().strip())
+            line = events_template.render(events = events, now = datetime.datetime.now())
+            print(line)
+
 #    print(json.dumps(result, indent=4, sort_keys=True))
 #    for key in result:
 #        print key + ": " + result[key]
 
-else:
+    else:
 
-    # If response code is not ok (200), print the resulting http error code with description
-    print("Oh, no, too bad we received a HTTP {0} status.".format(resp.status_code))
-    resp.raise_for_status()
+        # If response code is not ok (200), print the resulting http error code with description
+        print("Oh, no, too bad we received a HTTP {0} status.".format(resp.status_code))
+        resp.raise_for_status()
+
+
+if __name__ == "__main__":
+    retrieve_meetup_events()
