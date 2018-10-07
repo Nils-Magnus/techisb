@@ -6,6 +6,7 @@
 </head>
 <body>
 <h1>All the relevant tech events in Berlin</h1>
+<p><a href="faq.html#get-my-events-list">How to get my events listed</a> and <a href="background.html">why are we doing this?</a>
 <div class="table-responsive-md">
   <table class="table">
     <thead class="thead-dark">
