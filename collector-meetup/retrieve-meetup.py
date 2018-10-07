@@ -34,7 +34,8 @@ def retrieve_meetup_events():
         # Loading the response data into a dict variable
         # json.loads takes in only binary or string variables so using content to fetch binary content
         # Loads (Load String) takes a Json file and converts into python data structure (dict or list, depending on JSON)
-        events = json.loads(str(resp.content))['events']
+        # events = json.loads(str(resp.content))['events']
+        events = json.loads(resp.content)['events']
 
         with open("templates/index.template", "r") as template_file:
             events_template = Template(template_file.read().strip())
