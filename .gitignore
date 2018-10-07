@@ -3,4 +3,5 @@ apikey.txt
 *.sw?
 *~
 data/*.json
-web/*.html
+web/index.html
+web/events-*.html

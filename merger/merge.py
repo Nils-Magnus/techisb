@@ -12,11 +12,12 @@ def merge_data():
 
     # with open("../data/sven.json", "r") as eventfile:
     # ---> merging, sorting
-    
+
+    sorted_events = sorted(events, key=lambda x: x['local_date'])
+
     with open("/templates/index.template", "r") as template_file:
         events_template = Template(template_file.read().strip())
-        line = events_template.render(events = events, now = datetime.datetime.now())
-        print(line)
+        print(events_template.render(events = sorted_events, now = datetime.datetime.now()))
 
 if __name__ == "__main__":
     merge_data()
