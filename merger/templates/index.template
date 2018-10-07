@@ -8,7 +8,7 @@
 <h1>All the relevant tech events in Berlin</h1>
 <div class="table-responsive-md">
   <table class="table">
-    <thead>
+    <thead class="thead-dark">
       <tr>
         <th scope="col">When</th>
         <th scope="col">What</th>
