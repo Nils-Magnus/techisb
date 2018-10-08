@@ -23,3 +23,5 @@ product backlog:
   - Monitoring for errors
   - Allow for useful client-side sorting
   - Merge from more data sources like e. g. eventbrite
+  - Sort by distance to JavaScript provided location
+  - Button: "today and close to me"
