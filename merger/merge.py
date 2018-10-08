@@ -9,12 +9,15 @@ import htmlmin
 def merge_data():
 
     with open("/data/meetup.json", "r") as eventfile:
-        events = json.loads(eventfile.read())
+        meetup_events = json.loads(eventfile.read())
+
+    with open("/data/curated.json", "r") as eventfile:
+        curated_events = json.loads(eventfile.read())
 
     # with open("../data/sven.json", "r") as eventfile:
     # ---> merging, sorting
 
-    sorted_events = sorted(events, key=lambda x: x['local_date'])
+    sorted_events = sorted(meetup_events + curated_events, key=lambda x: x['date'])
 
     with open("/templates/index.template", "r") as template_file:
         events_template = Template(template_file.read().strip())

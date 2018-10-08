@@ -19,6 +19,14 @@ def retrieve_meetup_events():
 
         # we should apply some filtering here
 
+        for event in events:
+            event['date'] = event['local_date']
+            event['time'] = event['local_time']
+            event['organizer'] = event['group']['name']
+            event['url'] = event['link']
+            if 'venue' in event:
+                event['venue']['address'] = event['venue']['address_1']
+
         print(json.dumps(events, indent=4, sort_keys=True))
 
     else:

@@ -6,8 +6,8 @@
     <title>Tech is Berlin: All the relevant tech events in Berlin</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-	  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-	  crossorigin="anonymous">
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
   </head>
   <body>
     <h1>Tech is Berlin</h1>
@@ -23,39 +23,39 @@
             <th scope="col" class="th-md">Organizer<i class="fa fa-sort float-right" aria-hidden="true"></i></th>
             <th scope="col" class="th-md">Location <i class="fa fa-sort float-right" aria-hidden="true"></i></th>
           </tr>
-	</thead>
-	<tbody>
-	  {% for event in events %}
+        </thead>
+        <tbody>
+          {% for event in events %}
           <tr>
-	    <td scope="row">{{ event.local_date }},&nbsp;{{ event.local_time }}</td>
-    	    <td><a href="{{ event.link }}">{{ event.name }}</a></td>
-            <td>{{ event.group.name }}</td>
+            <td scope="row">{{ event.date }},&nbsp;{{ event.time }}</td>
+            <td><a href="{{ event.url }}">{{ event.name }}</a></td>
+            <td>{{ event.organizer }}</td>
             <td>
               {% if event.venue %}
-                <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{ event.venue.address_1 }}</a>
+              <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{ event.venue.address }}</a>
               {% endif %}
             </td>
-	  </tr>
-	  {% endfor %}
-	</tbody>
+          </tr>
+          {% endfor %}
+        </tbody>
       </table>
     </div>
     <p>Site generated {{ now }}.</p>
     <p>Copyright &copy; 2018 by Nils Magnus and Dirk Gomez. <a href="impressum.html">Impressum.</a>
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	      crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-	      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-	      crossorigin="anonymous"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-	      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-	      crossorigin="anonymous"></script>
-      <script>
-	$(document).ready(function () {
-	  $("#eventTable").DataTable();
-	  $(".dataTables_length").addClass("bs-select");
-	});
-      </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script>
+$(document).ready(function () {
+  $("#eventTable").DataTable();
+  $(".dataTables_length").addClass("bs-select");
+});
+    </script>
   </body>
 </html>
