@@ -25,3 +25,7 @@
   - Merge from more data sources like e. g. eventbrite
   - Sort by distance to JavaScript provided location
   - Button: "today and close to me"
+  - filter out dates in the past
+  - write tests and PEP8 the code
+  - Log files
+  - ICS feed and ical feed
