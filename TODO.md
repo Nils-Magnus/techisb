@@ -1,8 +1,6 @@
 # Product Backlog
   - choose frontend framework
   - register meetup account
-  - demo code to retrieve meetup API
-  - define general architecture (interactive/static code generation)
   - contact Nils Hitze and Christine Koppelt for techism
   - set up TLS certificate
   - set up impressum
