@@ -1,6 +1,5 @@
 # Product Backlog
   - choose frontend framework
-  - set up email forwarding
   - register meetup account
   - demo code to retrieve meetup API
   - define general architecture (interactive/static code generation)
