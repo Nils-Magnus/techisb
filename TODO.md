@@ -26,3 +26,4 @@
   - write tests and PEP8 the code
   - Log files
   - ICS feed and ical feed
+  - today, tomorrow links
