@@ -17,8 +17,10 @@ def merge_data():
     # with open("../data/sven.json", "r") as eventfile:
     # ---> merging, sorting
 
-    # sort and filter out past events
-    sorted_events = sorted(meetup_events + curated_events, key = lambda x: datetime.datetime.strptime(x['date'] + ' ' + x['time'], '%Y-%m-%d %H:%M') > datetime.datetime.now())
+    sorted_events = filter(
+            lambda x: datetime.datetime.strptime(x['date'] + ' ' + x['time'], '%Y-%m-%d %H:%M') > datetime.datetime.now(),
+            sorted(meetup_events + curated_events, key=lambda x: x['date']),
+            )
 
     with open("/templates/index.template", "r") as template_file:
         events_template = Template(template_file.read().strip())
