@@ -57,7 +57,9 @@
     <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
     <script>
 $(document).ready(function () {
-  $("#eventTable").DataTable();
+  $("#eventTable").DataTable({
+    "paging": false
+});
   $(".dataTables_length").addClass("bs-select");
 });
     </script>
