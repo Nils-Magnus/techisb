@@ -34,7 +34,7 @@
             <td>{{ event.organizer }}</td>
             <td>
               {% if event.venue %}
-              <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{ event.venue.address }}</a>
+              <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
               {% endif %}
             </td>
           </tr>
