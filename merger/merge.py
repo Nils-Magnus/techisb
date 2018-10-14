@@ -42,7 +42,7 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
             'PRODID': '-//techisb.de//Berlin tech events/',
             'X-WR-CALNAME': 'Berlin tech events via http://techisb.de',
             'X-WR-TIMEZONE': 'Europe/Berlin',
-            'X-WR-CALDESC': 'Áll the relevant Berlin tech events handily in one calendar'
+            'X-WR-CALDESC': 'All the relevant Berlin tech events handily in one calendar'
             })
 
     berlin_timezone = pytz.timezone('Europe/Berlin')
