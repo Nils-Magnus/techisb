@@ -3,32 +3,79 @@ from jinja2 import Template
 import pprint
 import datetime
 import htmlmin
+from icalendar import Calendar, Event
+import sys
+import itertools
+
 
 #import code; code.interact(local=dict(globals(), **locals()))
 
-def merge_data():
+def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
 
-    with open("/data/meetup.json", "r") as eventfile:
+    with open(meetup_json, "r") as eventfile:
         meetup_events = json.loads(eventfile.read())
 
-    with open("/data/curated.json", "r") as eventfile:
+    with open(curated_json, "r") as eventfile:
         curated_events = json.loads(eventfile.read())
 
     # with open("../data/sven.json", "r") as eventfile:
     # ---> merging, sorting
 
-    sorted_events = filter(
+    html_data, ics_data = itertools.tee(filter(
             lambda x: datetime.datetime.strptime(x['date'] + ' ' + x['time'], '%Y-%m-%d %H:%M') > datetime.datetime.now(),
             sorted(meetup_events + curated_events, key=lambda x: x['date']),
-            )
+            ), 2)
 
-    with open("/templates/index.template", "r") as template_file:
+    with open(template_file, "r") as template_file:
         events_template = Template(template_file.read().strip())
-        print(htmlmin.minify(
-            events_template.render(events = sorted_events, now = datetime.datetime.now()),
+        f = open(html_file, 'w')
+        f.write(htmlmin.minify(
+            events_template.render(events = html_data, now = datetime.datetime.now()),
             remove_comments=True, remove_empty_space=True
             )
-            )
+        )
+        f.close()
+
+
+    calendar = Calendar({'PRODID': '-//techisb.de//Berlin tech events/'})
+
+    for this_event in ics_data:
+
+        event = Event()
+
+        event.add('summary', this_event['name'])
+        event.add('dtstart', datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M'))
+
+        duration = 9000000
+        if 'duration' in this_event:
+            duration = this_event['duration']
+        event.add('dtend', datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M') + datetime.timedelta(milliseconds=duration))
+
+        event.add('description', '')
+
+        if 'venue' in this_event:
+            event.add('location', this_event['venue']['address'])
+
+        calendar.add_component(event)
+
+    f = open(ics_file, 'wb')
+    f.write(calendar.to_ical())
+    f.close()
+
 
 if __name__ == "__main__":
-    merge_data()
+    if (sys.argv[1] == 'docker'):
+        parameters = [ "/web/index.html",
+                "/web/techisb.ics",
+                "/data/meetup.json",
+                "/data/curated.json",
+                "/templates/index.template"
+                ]
+    else:
+        parameters = [ "../web/index.html",
+                "../web/techisb.ics",
+                "../data/meetup.json",
+                "../data/curated.json",
+                "templates/index.template"
+                ]
+    merge_data(*parameters)
