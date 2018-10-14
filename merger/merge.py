@@ -6,6 +6,7 @@ import htmlmin
 from icalendar import Calendar, Event
 import sys
 import itertools
+import pytz
 
 
 #import code; code.interact(local=dict(globals(), **locals()))
@@ -44,17 +45,20 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
             'X-WR-CALDESC': 'Áll the relevant Berlin tech events handily in one calendar'
             })
 
+    berlin_timezone = pytz.timezone('Europe/Berlin')
+
     for this_event in ics_data:
 
         event = Event()
 
         event.add('summary', this_event['name'])
-        event.add('dtstart', datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M'))
+        starttime = berlin_timezone.localize(datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M'))
+        event.add('dtstart', starttime)
 
         duration = 9000000
         if 'duration' in this_event:
             duration = this_event['duration']
-        event.add('dtend', datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M') + datetime.timedelta(milliseconds=duration))
+        event.add('dtend', starttime + datetime.timedelta(milliseconds=duration))
 
         event.add('description', '')
 
