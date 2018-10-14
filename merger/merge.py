@@ -41,6 +41,7 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
     calendar = icalendar.Calendar({
             'PRODID': '-//techisb.de//Berlin tech events/',
             'METHOD': 'PUBLISH',
+            'VERSION': '2.0',
             'X-WR-CALNAME': 'Berlin tech events via http://techisb.de',
             'X-WR-TIMEZONE': 'Europe/Berlin',
             'X-WR-CALDESC': 'All the relevant Berlin tech events handily in one calendar'
@@ -72,6 +73,8 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
 
     berlin_timezone = pytz.timezone('Europe/Berlin')
 
+    dtstamp = berlin_timezone.localize(datetime.datetime.now())
+
     for this_event in ics_data:
 
         event = icalendar.Event()
@@ -86,6 +89,9 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
         if 'duration' in this_event:
             duration = this_event['duration']
         event.add('dtend', starttime + datetime.timedelta(milliseconds=duration))
+        event.add('dtstamp', dtstamp)
+
+        event.add('uid', (str(starttime.timestamp()) + this_event['url'] + 'techisb.de'))
 
         event.add('description', '')
 
