@@ -90,7 +90,7 @@ def merge_data(html_file, ics_file, json_dir):
 
         event.add('uid', (str(starttime.timestamp()) + this_event['url'] + 'techisb.de'))
 
-        event.add('description', '')
+        event.add('description', this_event['url'])
 
         if 'venue' in this_event:
             event.add('location', this_event['venue']['address'])
