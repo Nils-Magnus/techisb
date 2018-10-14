@@ -37,7 +37,12 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
         f.close()
 
 
-    calendar = Calendar({'PRODID': '-//techisb.de//Berlin tech events/'})
+    calendar = Calendar({
+            'PRODID': '-//techisb.de//Berlin tech events/',
+            'X-WR-CALNAME': 'Berlin tech events via http://techisb.de',
+            'X-WR-TIMEZONE': 'Europe/Berlin',
+            'X-WR-CALDESC': 'Áll the relevant Berlin tech events handily in one calendar'
+            })
 
     for this_event in ics_data:
 
