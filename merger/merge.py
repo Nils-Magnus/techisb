@@ -39,14 +39,13 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
 
 
     calendar = icalendar.Calendar({
-            'PRODID': '-//techisb.de//Berlin tech events/',
+            'PRODID': '-//TechisBe//Berlin tech events//DE',
             'METHOD': 'PUBLISH',
             'VERSION': '2.0',
-            'X-WR-CALNAME': 'Berlin tech events via http://techisb.de',
+            'X-WR-CALNAME': 'TechisB - Berlin tech events via http://techisb.de',
             'X-WR-TIMEZONE': 'Europe/Berlin',
-            'X-WR-CALDESC': 'All the relevant Berlin tech events handily in one calendar'
+            'X-WR-CALDESC': 'All the relevant Berlin tech events in one calendar'
             })
-
 
     # Provide timezone info - see https://github.com/collective/icalendar/blob/master/src/icalendar/tests/test_timezoned.py#L50
     tzc = icalendar.Timezone()
