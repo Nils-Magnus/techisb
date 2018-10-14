@@ -79,7 +79,7 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
         event.add('summary', this_event['name'])
         starttime = berlin_timezone.localize(datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M'))
         # brutal hack to show correct timezone in Google calendar
-        starttime = starttime - datetime.timedelta(hours=2)
+        #starttime = starttime - datetime.timedelta(hours=2)
         event.add('dtstart', starttime)
 
         duration = 3600000
