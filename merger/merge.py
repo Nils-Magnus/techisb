@@ -1,6 +1,5 @@
 import json
 from jinja2 import Template
-import pprint
 import datetime
 import htmlmin
 import icalendar
@@ -9,9 +8,9 @@ import itertools
 import pytz
 
 
-#import code; code.interact(local=dict(globals(), **locals()))
-
 def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
+    def _to_datetime(date, time):
+        return datetime.datetime.strptime(date + ' ' + time, '%Y-%m-%d %H:%M')
 
     with open(meetup_json, "r") as eventfile:
         meetup_events = json.loads(eventfile.read())
@@ -22,8 +21,10 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
     # with open("../data/sven.json", "r") as eventfile:
     # ---> merging, sorting
 
+    now = datetime.datetime.now()
+
     html_data, ics_data = itertools.tee(filter(
-            lambda x: datetime.datetime.strptime(x['date'] + ' ' + x['time'], '%Y-%m-%d %H:%M') > datetime.datetime.now(),
+            lambda x: _to_datetime(x['date'], x['time']) > now,
             sorted(meetup_events + curated_events, key=lambda x: x['date']),
             ), 2)
 
@@ -31,12 +32,11 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
         events_template = Template(template_file.read().strip())
         f = open(html_file, 'w')
         f.write(htmlmin.minify(
-            events_template.render(events = html_data, now = datetime.datetime.now()),
+            events_template.render(events=html_data, now=now),
             remove_comments=True, remove_empty_space=True
             )
         )
         f.close()
-
 
     calendar = icalendar.Calendar({
             'PRODID': '-//TechisBe//Berlin tech events//DE',
@@ -47,7 +47,8 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
             'X-WR-CALDESC': 'All the relevant Berlin tech events in one calendar'
             })
 
-    # Provide timezone info - see https://github.com/collective/icalendar/blob/master/src/icalendar/tests/test_timezoned.py#L50
+    # Provide timezone info -
+    # see https://github.com/collective/icalendar/blob/master/src/icalendar/tests/test_timezoned.py#L50
     tzc = icalendar.Timezone()
     tzc.add('tzid', 'Europe/Berlin')
     tzc.add('x-lic-location', 'Europe/Berlin')
@@ -72,16 +73,14 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
 
     berlin_timezone = pytz.timezone('Europe/Berlin')
 
-    dtstamp = berlin_timezone.localize(datetime.datetime.now())
+    dtstamp = berlin_timezone.localize(now)
 
     for this_event in ics_data:
 
         event = icalendar.Event()
 
         event.add('summary', this_event['name'])
-        starttime = berlin_timezone.localize(datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M'))
-        # brutal hack to show correct timezone in Google calendar
-        #starttime = starttime - datetime.timedelta(hours=2)
+        starttime = berlin_timezone.localize(_to_datetime(this_event['date'], this_event['time']))
         event.add('dtstart', starttime)
 
         duration = 3600000
@@ -106,17 +105,15 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
 
 if __name__ == "__main__":
     if (sys.argv[1] == 'docker'):
-        parameters = [ "/web/index.html",
-                "/web/techisb.ics",
-                "/data/meetup.json",
-                "/data/curated.json",
-                "/templates/index.template"
-                ]
+        parameters = ["/web/index.html",
+                      "/web/techisb.ics",
+                      "/data/meetup.json",
+                      "/data/curated.json",
+                      "/templates/index.template"]
     else:
-        parameters = [ "../web/index.html",
-                "../web/techisb.ics",
-                "../data/meetup.json",
-                "../data/curated.json",
-                "templates/index.template"
-                ]
+        parameters = ["../web/index.html",
+                      "../web/techisb.ics",
+                      "../data/meetup.json",
+                      "../data/curated.json",
+                      "templates/index.template"]
     merge_data(*parameters)
