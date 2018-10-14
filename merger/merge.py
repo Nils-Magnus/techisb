@@ -6,38 +6,37 @@ import icalendar
 import sys
 import itertools
 import pytz
+import glob
 
 
-def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
+def merge_data(html_file, ics_file, json_dir):
     def _to_datetime(date, time):
         return datetime.datetime.strptime(date + ' ' + time, '%Y-%m-%d %H:%M')
 
-    with open(meetup_json, "r") as eventfile:
-        meetup_events = json.loads(eventfile.read())
-
-    with open(curated_json, "r") as eventfile:
-        curated_events = json.loads(eventfile.read())
-
-    # with open("../data/sven.json", "r") as eventfile:
-    # ---> merging, sorting
-
     now = datetime.datetime.now()
 
+    # read all events
+    events = []
+    for filename in glob.glob(json_dir + '/*.json'):
+        with open(filename) as file:
+            events = events + json.loads(file.read())
+
+    # sort them and provide two iterators for html and ical generation
     html_data, ics_data = itertools.tee(filter(
             lambda x: _to_datetime(x['date'], x['time']) > now,
-            sorted(meetup_events + curated_events, key=lambda x: x['date']),
+            sorted(events, key=lambda x: x['date']),
             ), 2)
 
-    with open(template_file, "r") as template_file:
+    # generate html file
+    with open('templates/index.template', 'r') as template_file, open(html_file, 'w') as output_file:
         events_template = Template(template_file.read().strip())
-        f = open(html_file, 'w')
-        f.write(htmlmin.minify(
+        output_file.write(htmlmin.minify(
             events_template.render(events=html_data, now=now),
             remove_comments=True, remove_empty_space=True
             )
         )
-        f.close()
 
+    # generate ical file
     calendar = icalendar.Calendar({
             'PRODID': '-//TechisBe//Berlin tech events//DE',
             'METHOD': 'PUBLISH',
@@ -98,22 +97,17 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
 
         calendar.add_component(event)
 
-    f = open(ics_file, 'wb')
-    f.write(calendar.to_ical())
-    f.close()
+    with open(ics_file, 'wb') as output_file:
+        output_file.write(calendar.to_ical())
 
 
 if __name__ == "__main__":
     if (sys.argv[1] == 'docker'):
-        parameters = ["/web/index.html",
-                      "/web/techisb.ics",
-                      "/data/meetup.json",
-                      "/data/curated.json",
-                      "/templates/index.template"]
+        parameters = ['/web/index.html',
+                      '/web/techisb.ics',
+                      '/data/']
     else:
-        parameters = ["../web/index.html",
-                      "../web/techisb.ics",
-                      "../data/meetup.json",
-                      "../data/curated.json",
-                      "templates/index.template"]
+        parameters = ['../web/index.html',
+                      '../web/techisb.ics',
+                      '../data/']
     merge_data(*parameters)
