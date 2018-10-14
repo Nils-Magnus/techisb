@@ -3,7 +3,7 @@ from jinja2 import Template
 import pprint
 import datetime
 import htmlmin
-from icalendar import Calendar, Event
+import icalendar
 import sys
 import itertools
 import pytz
@@ -38,18 +38,42 @@ def merge_data(html_file, ics_file, meetup_json, curated_json, template_file):
         f.close()
 
 
-    calendar = Calendar({
+    calendar = icalendar.Calendar({
             'PRODID': '-//techisb.de//Berlin tech events/',
             'X-WR-CALNAME': 'Berlin tech events via http://techisb.de',
             'X-WR-TIMEZONE': 'Europe/Berlin',
             'X-WR-CALDESC': 'All the relevant Berlin tech events handily in one calendar'
             })
 
+
+    # Provide timezone info - see https://github.com/collective/icalendar/blob/master/src/icalendar/tests/test_timezoned.py#L50
+    tzc = icalendar.Timezone()
+    tzc.add('tzid', 'Europe/Berlin')
+    tzc.add('x-lic-location', 'Europe/Berlin')
+
+    tzs = icalendar.TimezoneStandard()
+    tzs.add('tzname', 'CET')
+    tzs.add('dtstart', datetime.datetime(1970, 10, 25, 3, 0, 0))
+    tzs.add('rrule', {'freq': 'yearly', 'bymonth': 10, 'byday': '-1su'})
+    tzs.add('TZOFFSETFROM', datetime.timedelta(hours=2))
+    tzs.add('TZOFFSETTO', datetime.timedelta(hours=1))
+
+    tzd = icalendar.TimezoneDaylight()
+    tzd.add('tzname', 'CEST')
+    tzd.add('dtstart', datetime.datetime(1970, 3, 29, 2, 0, 0))
+    tzs.add('rrule', {'freq': 'yearly', 'bymonth': 3, 'byday': '-1su'})
+    tzd.add('TZOFFSETFROM', datetime.timedelta(hours=1))
+    tzd.add('TZOFFSETTO', datetime.timedelta(hours=2))
+
+    tzc.add_component(tzs)
+    tzc.add_component(tzd)
+    calendar.add_component(tzc)
+
     berlin_timezone = pytz.timezone('Europe/Berlin')
 
     for this_event in ics_data:
 
-        event = Event()
+        event = icalendar.Event()
 
         event.add('summary', this_event['name'])
         starttime = berlin_timezone.localize(datetime.datetime.strptime(this_event['date'] + ' ' + this_event['time'], '%Y-%m-%d %H:%M'))
