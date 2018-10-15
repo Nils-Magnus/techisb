@@ -91,11 +91,13 @@ def merge_data(web_dir, json_dir):
         starttime = berlin_timezone.localize(_to_datetime(this_event['date'], this_event['time']))
         event.add('dtstart', starttime)
 
-        duration = 3600000
+        duration = 3600000  # one hour
         if 'duration' in this_event:
             duration = this_event['duration']
         event.add('dtend', starttime + datetime.timedelta(milliseconds=duration))
         event.add('dtstamp', dtstamp)
+
+        event.add('organizer', this_event['organizer'])
 
         event.add('uid', (str(starttime.timestamp()) + this_event['url'] + 'techisb.de'))
 
