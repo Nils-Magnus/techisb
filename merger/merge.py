@@ -9,7 +9,7 @@ import pytz
 import glob
 
 
-def merge_data(html_file, ics_file, json_dir):
+def merge_data(web_dir, json_dir):
     def _to_datetime(date, time):
         return datetime.datetime.strptime(date + ' ' + time, '%Y-%m-%d %H:%M')
 
@@ -22,16 +22,25 @@ def merge_data(html_file, ics_file, json_dir):
             events = events + json.loads(file.read())
 
     # sort them and provide two iterators for html and ical generation
-    html_data, ics_data = itertools.tee(filter(
+    html_data, mobile_data, ics_data = itertools.tee(filter(
             lambda x: _to_datetime(x['date'], x['time']) > now,
             sorted(events, key=lambda x: x['date']),
-            ), 2)
+            ), 3)
 
     # generate html file
-    with open('templates/index.template', 'r') as template_file, open(html_file, 'w') as output_file:
+    with open('templates/index.template', 'r') as template_file, open(web_dir + 'index.html', 'w') as output_file:
         events_template = Template(template_file.read().strip())
         output_file.write(htmlmin.minify(
             events_template.render(events=html_data, now=now),
+            remove_comments=True, remove_empty_space=True
+            )
+        )
+
+    # generate mobile html file
+    with open('templates/mobile.template', 'r') as template_file, open(web_dir + 'mobile.html', 'w') as output_file:
+        events_template = Template(template_file.read().strip())
+        output_file.write(htmlmin.minify(
+            events_template.render(events=mobile_data, now=now),
             remove_comments=True, remove_empty_space=True
             )
         )
@@ -97,17 +106,15 @@ def merge_data(html_file, ics_file, json_dir):
 
         calendar.add_component(event)
 
-    with open(ics_file, 'wb') as output_file:
+    with open(web_dir + 'techisb.ics', 'wb') as output_file:
         output_file.write(calendar.to_ical())
 
 
 if __name__ == "__main__":
     if (sys.argv[1] == 'docker'):
-        parameters = ['/web/index.html',
-                      '/web/techisb.ics',
+        parameters = ['/web/',
                       '/data/']
     else:
-        parameters = ['../web/index.html',
-                      '../web/techisb.ics',
+        parameters = ['../web/',
                       '../data/']
     merge_data(*parameters)

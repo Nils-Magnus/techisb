@@ -4,5 +4,5 @@ apikey.txt
 *~
 data/*.json
 web/techisb.ics
-web/index.html
+web/*.html
 web/events-*.html
