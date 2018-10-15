@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Tech is Berlin: All the relevant tech events in Berlin</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+  </head>
+  <body>
+    <h1>Tech is Berlin</h1>
+    <h2>All the relevant tech events in Germany's capital</h2>
+    <p>Too many events on too many sites? Don't look any further. Stuff that matters. Tech is Berlin!</p>
+    <p><a href="faq.html#contribute">How to get my events listed</a> and <a href="faq.html#idea">why are we doing this?</a>
+    <div class="list-group">
+      {% for event in events %}
+      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-bertween">
+          <h5 class="mv-1">{{ event.name }}</h5>
+          <small>{{ event.date }},&nbsp;{{ event.time }}</small>
+        </div
+        <p class="mb-1"><a href="{{ event.url }}">{{ event.name }}</a>
+          {% if event.venue %}
+          at <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
+          {% endif %}
+        </p>
+        <small>{{ event.organizer }}</small>
+      </a>
+      {% endfor %}
+    </div>
+    <p>Site generated {{ now }}.</p>
+    <p>Copyright &copy; 2018 by Nils Magnus and Dirk Gomez. <a href="faq.html#contact">Impressum.</a>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+  </body>
+</html>
