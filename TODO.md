@@ -14,3 +14,4 @@
   - Sort by distance to JavaScript provided location
   - Button: "today and close to me"
   - today, tomorrow links
+  - fix "unable to launch event" when clicking ics file in whatsapp
