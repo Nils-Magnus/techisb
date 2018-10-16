@@ -24,7 +24,7 @@ def merge_data(web_dir, json_dir):
     # sort them and provide two iterators for html and ical generation
     html_data, mobile_data, ics_data = itertools.tee(filter(
             lambda x: _to_datetime(x['date'], x['time']) > now,
-            sorted(events, key=lambda x: x['date']),
+            sorted(events, key=lambda x: x['date'] + x['time']),
             ), 3)
 
     # generate html file
