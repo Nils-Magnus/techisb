@@ -14,7 +14,8 @@ server {
 
   index index.html;
   if ($http_user_agent ~* "|android|ip(ad|hone|od)|kindle") {
-    index mobile.html;
+    rewrite ^/$ mobile.html;
+    rewrite ^/index.html$ mobile.html;
   }
 
   server_name _;
