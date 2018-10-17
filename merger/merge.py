@@ -113,10 +113,10 @@ def merge_data(web_dir, json_dir):
 
 
 if __name__ == "__main__":
-    if (sys.argv[1] == 'docker'):
-        parameters = ['/config/www/',
-                      '/data/']
-    else:
+    if (sys.argv[1] == 'shell'):
         parameters = ['../config/www/',
                       '../data/']
+    else:
+        parameters = ['/config/www/',
+                      '/data/']
     merge_data(*parameters)
