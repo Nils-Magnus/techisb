@@ -1,2 +1,4 @@
+build:
+	docker pull linuxserver/letsencrypt
 run:
-	docker run -p 80:80 -v $(PWD)/../web:/usr/share/nginx/html:ro -d nginx
+	docker run -e techisb.de -p 80:80 -p 443:443 -e EMAIL=operations@techisb.de -e TZ=Europe/Berlin -e URL=techisb.de -v $(PWD)/../config:/config -d linuxserver/letsencrypt

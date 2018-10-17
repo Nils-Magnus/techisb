@@ -3,6 +3,6 @@ apikey.txt
 *.sw?
 *~
 data/*.json
-web/techisb.ics
-web/*.html
-web/events-*.html
+config/www/techisb.ics
+config/www/*.html
+config/www/events-*.html
