@@ -60,16 +60,16 @@ def merge_data(web_dir, json_dir):
             events = events + json.loads(file.read())
 
     # sort them and provide two iterators for html and ical generation
-    """
-    sorted_events = filter(
-            lambda x: _to_datetime(x['date'], x['time']) > now,
-            sorted(events, key=lambda x: x['date'] + x['time']))
-    """
     future_events = filter(lambda x: _to_datetime(x['date'], x['time']) > now, events)
     sorted_events = sorted(future_events, key=lambda x: x['date'] + x['time'])
 
     html_data, mobile_data, ics_data = itertools.tee(
-            [dict(item, eventnumber=sorted_events.index(item)) for item in sorted_events], 3)
+            [dict(item,
+                eventnumber=sorted_events.index(item),
+                is_today=(item['date'] == now.date()),
+                is_tomorrow=(item['date'] == now.date() + datetime.timedelta(days=1))
+                )
+                for item in sorted_events], 3)
 
     # generate html file
     with open('templates/index.template', 'r') as template_file, open(web_dir + 'index.html', 'w') as output_file:
