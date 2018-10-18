@@ -1,6 +1,4 @@
 # Product Backlog
-  - Mobile view: show today, tomorrow, weekdays, remove date or display less prominently
-  - Mobile view: add to calendar link
   - Mobile view: neighborhood or zip code
   - use logo
   - implement "make clean"
@@ -11,6 +9,3 @@
   - Create useful logfiles that allow for problem analysis
   - Monitoring for errors
   - Sort by distance to JavaScript provided location
-  - Button: "today and close to me"
-  - today, tomorrow links
-  - fix "unable to launch event" when clicking ics file in whatsapp
