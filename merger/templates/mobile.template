@@ -22,7 +22,7 @@
                 {% if event.is_today %}
                   Today at {{ event.time }}
                 {% else %}
-                  {% if event.is_today %}
+                  {% if event.is_tomorrow %}
                     Tomorrow at {{ event.time }}
                   {% else %}
                     {{ event.date }} {{ event.time }}

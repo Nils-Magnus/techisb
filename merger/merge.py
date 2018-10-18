@@ -63,11 +63,14 @@ def merge_data(web_dir, json_dir):
     future_events = filter(lambda x: _to_datetime(x['date'], x['time']) > now, events)
     sorted_events = sorted(future_events, key=lambda x: x['date'] + x['time'])
 
+    today_string = now.date().strftime("%Y-%m-%d")
+    tomorrow_string = (now.date() + datetime.timedelta(days=1)).strftime("%Y-%m-%d")
+
     html_data, mobile_data, ics_data = itertools.tee(
             [dict(item,
                 eventnumber=sorted_events.index(item),
-                is_today=(item['date'] == now.date()),
-                is_tomorrow=(item['date'] == now.date() + datetime.timedelta(days=1))
+                is_today=(item['date'] == today_string),
+                is_tomorrow=(item['date'] == tomorrow_string)
                 )
                 for item in sorted_events], 3)
 
