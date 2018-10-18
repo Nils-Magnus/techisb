@@ -11,6 +11,7 @@
   </head>
   <body>
     <h1>Berlin Tech events</h1>
+    <p>Subscribe to the <a href="https://techisb.de/techisb.ics">calendar feed</a>.
     <ul class="list-group">
       {% for event in events %}
       <li class="list-group-item "><a href="{{ event.url }}">
