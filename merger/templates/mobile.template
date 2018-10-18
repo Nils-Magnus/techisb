@@ -21,7 +21,7 @@
           </div>
         </a>
         <p class="mb-1">
-        Organized by {{ event.organizer }}
+        By {{ event.organizer }}
           {% if event.venue %}
             at <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
           {% endif %}
