@@ -1,11 +1,10 @@
 # Product Backlog
-  - contact Nils Hitze and Christine Koppelt for techism
-  - set up TLS certificate
+  - Mobile view: show today, tomorrow, weekdays, remove date or display less prominently
+  - Mobile view: add to calendar link
+  - Mobile view: neighborhood or zip code
   - use logo
   - implement "make clean"
   - provide favicon.ico
-  - write teaser/faq texts
-  - Document how to get your event listed
   - Robustness against errors
   - PR powered event upload mechanism
   - PR powered event stream upload mechanism
