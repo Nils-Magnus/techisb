@@ -17,11 +17,10 @@
       <li class="list-group-item "><a href="{{ event.url }}">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ event.name }}</h5>
-            <small class="text-muted">{{ event.date }},&nbsp;{{ event.time }}</small>
+            <small class="text-muted"><a href="ics/{{ event.eventnumber }}.ics"><img src="svg/calendar.svg" alt="Add to calendar">{{ event.date }},&nbsp;{{ event.time }}</a></small>
           </div>
         </a>
         <p class="mb-1">
-        <a href="ics/{{ event.eventnumber }}.ics"><img src="svg/calendar.svg" alt="Add to calendar"></a>
         By {{ event.organizer }}
           {% if event.venue %}
             at <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
