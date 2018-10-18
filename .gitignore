@@ -5,4 +5,5 @@ apikey.txt
 data/*.json
 config/www/techisb.ics
 config/www/*.html
+config/www/ics/*.ics
 config/www/events-*.html
