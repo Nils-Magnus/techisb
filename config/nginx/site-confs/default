@@ -1,11 +1,18 @@
-# lifted from https://gist.github.com/IronicBadger/362c408d1f2c27a0503cb9252b508140
+# Expires map
+map $sent_http_content_type $expires {
+    default                    off;
+    text/html                  epoch;
+    text/css                   max;
+    application/javascript     max;
+    ~image/                    max;
+}
+
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
   server_name _;
   return 301 https://$host$request_uri;
 }
-
 
 server {
   listen 443 ssl default_server;
@@ -34,4 +41,5 @@ server {
     rewrite ^/$ /mobile.html break;
   }
 
+  expires $expires;
 }
