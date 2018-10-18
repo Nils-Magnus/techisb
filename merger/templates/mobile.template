@@ -17,19 +17,21 @@
       <li class="list-group-item "><a href="{{ event.url }}">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ event.name }}</h5>
-            <a href="ics/{{ event.eventnumber }}.ics"><img class="float-left" src="svg/calendar.svg" alt="Add to calendar">
-              <small class="text-muted float-right">
-                {% if event.is_today %}
-                  Today at {{ event.time }}
-                {% else %}
-                  {% if event.is_tomorrow %}
-                    Tomorrow at {{ event.time }}
+            <div class="float-right">
+              <a href="ics/{{ event.eventnumber }}.ics"><img src="svg/calendar.svg" alt="Add to calendar">
+                <small class="text-muted">
+                  {% if event.is_today %}
+                    Today at {{ event.time }}
                   {% else %}
-                    {{ event.date }} {{ event.time }}
+                    {% if event.is_tomorrow %}
+                      Tomorrow at {{ event.time }}
+                    {% else %}
+                      {{ event.date }} {{ event.time }}
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-              </small>
-            </a>
+                </small>
+              </a>
+            </div>
           </div>
         </a>
         <p class="mb-1">
