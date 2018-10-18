@@ -12,12 +12,6 @@ server {
 
   root /config/www;
 
-  index index.html;
-  if ($http_user_agent ~* "|android|ip(ad|hone|od)|kindle") {
-    rewrite ^/$ mobile.html;
-    rewrite ^/index.html$ mobile.html;
-  }
-
   server_name _;
 
   ssl_certificate /config/keys/letsencrypt/fullchain.pem;
@@ -28,10 +22,6 @@ server {
 
   client_max_body_size 0;
 
-  location / {
-    try_files $uri $uri/ /index.html;
-  }
-
   location /.well-known/acme-challenge {
     alias /config/www/acme-challenges;
 
@@ -39,4 +29,9 @@ server {
       default_type text/plain;
     }
   }
+
+  if ($http_user_agent ~ Mobile) {
+    rewrite ^/$ /mobile.html break;
+  }
+
 }
