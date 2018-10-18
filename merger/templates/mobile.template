@@ -18,7 +18,7 @@
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{ event.name }}</h5>
             <div class="float-right">
-              <a href="ics/{{ event.eventnumber }}.ics"><img src="svg/calendar.svg" alt="Add to calendar">
+              <a href="ics/{{ event.eventnumber }}.ics"><img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/calendar.svg" alt="Add to calendar">
                 <small class="text-muted">
                   {% if event.is_today %}
                     Today at {{ event.time }}
@@ -35,9 +35,9 @@
           </div>
         </a>
         <p class="mb-1">
-          <img src="svg/organization.svg" alt="Event organizer">{{ event.organizer }}
+          <img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/organization.svg" alt="Event organizer">{{ event.organizer }}
           {% if event.venue %}
-          <br /><img src="svg/location.svg" alt="Event location"><a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
+          <br /><img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/location.svg" alt="Event location"><a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
           {% endif %}
         </p>
       {% endfor %}
