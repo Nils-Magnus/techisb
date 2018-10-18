@@ -35,9 +35,9 @@
           </div>
         </a>
         <p class="mb-1">
-        By {{ event.organizer }}
+          <img src="svg/organization.svg" alt="Event organizer">{{ event.organizer }}
           {% if event.venue %}
-            at <a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
+          <br /><img src="svg/location.svg" alt="Event location"><a href="https://maps.google.com/?q={{ event.venue.lat }},{{ event.venue.lon }}">{{event.venue.name}}, {{ event.venue.address }}</a>
           {% endif %}
         </p>
       {% endfor %}
