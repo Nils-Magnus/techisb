@@ -15,9 +15,6 @@
     <ul class="list-group">
       {% for event in events %}
       <li class="list-group-item "><a href="{{ event.url }}">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{ event.name }}</h5>
-            <div class="float-right">
               <a href="ics/{{ event.eventnumber }}.ics"><img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/calendar.svg" alt="Add to calendar">
                 <small class="text-muted">
                   {% if event.is_today %}
@@ -31,7 +28,8 @@
                   {% endif %}
                 </small>
               </a>
-            </div>
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ event.name }}</h5>
           </div>
         </a>
         <p class="mb-1">
