@@ -29,7 +29,7 @@
                 </small>
               </a>
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1"><img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/broadcast.svg" alt="Event title"> {{ event.name }}</h5>
+            <h5 class="mb-1"><a href="{{ event.url }}"><img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/broadcast.svg" alt="Event title"> {{ event.name }}</a></h5>
           </div>
         </a>
         <p class="mb-1">
