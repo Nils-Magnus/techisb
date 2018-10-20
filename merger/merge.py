@@ -20,7 +20,7 @@ def merge_data(web_dir, json_dir):
                 'PRODID': '-//TechisBe//Berlin tech events//DE',
                 'METHOD': 'PUBLISH',
                 'VERSION': '2.0',
-                'X-WR-CALNAME': 'TechisB - Berlin tech events via http://techisb.de',
+                'X-WR-CALNAME': 'TechisB - Berlin tech events via https://techisb.de',
                 'X-WR-TIMEZONE': 'Europe/Berlin',
                 'X-WR-CALDESC': 'All the relevant Berlin tech events in one calendar'
                 })
