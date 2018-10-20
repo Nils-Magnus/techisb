@@ -9,3 +9,4 @@
   - Create useful logfiles that allow for problem analysis
   - Monitoring for errors
   - Sort by distance to JavaScript provided location
+  - Fix http://www.guckes.net/techisb/index.html
