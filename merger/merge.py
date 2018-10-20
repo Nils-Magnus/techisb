@@ -1,5 +1,5 @@
 import json
-from jinja2 import Template
+from jinja2 import Template, Environment, FileSystemLoader
 import datetime
 import htmlmin
 import icalendar
@@ -53,6 +53,8 @@ def merge_data(web_dir, json_dir):
 
     now = datetime.datetime.now()
 
+    jinja_environment = Environment(loader=FileSystemLoader('.'))
+
     # read all events
     events = []
     for filename in glob.glob(json_dir + '/*.json'):
@@ -84,8 +86,8 @@ def merge_data(web_dir, json_dir):
         )
 
     # generate mobile html file
-    with open('templates/mobile.template', 'r') as template_file, open(web_dir + 'mobile.html', 'w') as output_file:
-        events_template = Template(template_file.read().strip())
+    with open(web_dir + 'mobile.html', 'w') as output_file:
+        events_template = jinja_environment.get_template('templates/mobile.template')
         output_file.write(htmlmin.minify(
             events_template.render(events=mobile_data, now=now),
             remove_comments=True, remove_empty_space=True
