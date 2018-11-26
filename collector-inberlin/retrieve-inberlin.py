@@ -42,6 +42,7 @@ def retrieve_inberlin_events():
         for entry in root.findall('{http://www.w3.org/2005/Atom}entry'):
             event = {}
             event['url'] = 'https://www.in-berlin.de/'
+            event['organizer'] = 'IN-Berlin'
             event['venue'] = {}
             event['venue']['name'] = 'IN-Berlin'
             event['venue']['address'] = 'Lehrter Str. 35, 10557 Berlin'
@@ -57,7 +58,7 @@ def retrieve_inberlin_events():
                     event['date'] = date[2] + '-' + date[1] + '-' + date[0]
                     event['time'] = start[2]
                 elif entry_data.tag == '{http://www.w3.org/2005/Atom}title':
-                    event['organizer'] = entry_data.text
+                    event['name'] = entry_data.text
 
             events.append(event)
 
