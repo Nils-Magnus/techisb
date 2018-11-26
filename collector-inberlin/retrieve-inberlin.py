@@ -30,6 +30,10 @@ class InberlinHTMLParser(HTMLParser):
 # import code; code.interact(local=dict(globals(), **locals()))
 
 def retrieve_inberlin_events():
+    def dedup_dict_list(list_of_dicts: list, columns: list) -> list:
+        return list({''.join(row[column] for column in columns): row
+                for row in list_of_dicts}.values())
+
     api = "https://user.in-berlin.de/vrkalender/export/atom-subscribe.php?uid=&sid=5095c2027826b&rid=&icskey=in-berlin"
 
     response = requests.get(api)
@@ -59,10 +63,13 @@ def retrieve_inberlin_events():
                     event['time'] = start[2]
                 elif entry_data.tag == '{http://www.w3.org/2005/Atom}title':
                     event['name'] = entry_data.text
+                elif entry_data.tag == '{http://www.w3.org/2005/Atom}id':
+                    event['id'] = entry_data.text
 
-            events.append(event)
+            if event['name'] not in ['IN-Berlin-Aktiventreffen']:
+                events.append(event)
 
-        print(json.dumps(events, indent=4, sort_keys=True))
+        print(json.dumps(dedup_dict_list(events, ['id']), indent=4, sort_keys=True))
     else:
 
         print("Oh, no, too bad we received a HTTP {0} status.".format(resp.status_code))
