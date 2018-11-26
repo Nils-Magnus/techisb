@@ -45,7 +45,7 @@ def retrieve_inberlin_events():
         root = ET.fromstring(response.content)
         for entry in root.findall('{http://www.w3.org/2005/Atom}entry'):
             event = {}
-            event['url'] = 'https://www.in-berlin.de/'
+            event['url'] = 'https://user.in-berlin.de/vrkalender/view-schedule.php'
             event['organizer'] = 'IN-Berlin'
             event['venue'] = {}
             event['venue']['name'] = 'IN-Berlin'
