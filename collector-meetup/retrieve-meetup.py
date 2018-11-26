@@ -17,8 +17,6 @@ def retrieve_meetup_events():
 
         events = json.loads(resp.content)["events"]
 
-        # we should apply some filtering here
-
         for event in events:
             event['date'] = event['local_date']
             event['time'] = event['local_time']
