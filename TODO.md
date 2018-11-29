@@ -10,3 +10,8 @@
   - Monitoring for errors
   - Sort by distance to JavaScript provided location
   - Fix http://www.guckes.net/techisb/index.html
+  - more feeds: https://www.c-base.org/calendar/exported/c-base-events.ics
+  - more feeds: https://www.eventbrite.de/d/germany--berlin/technology-events/
+  - more feeds: https://www.eventbrite.de/d/germany--berlin/science-and-tech--events/
+  - more feeds: https://techevents.co/places/berlin-germany/12169
+  - more feeds: http://itsinberlin.com/events-and-meetups-in-berlin-for-internet-tech-and-startups/
