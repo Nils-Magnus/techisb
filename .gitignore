@@ -7,3 +7,13 @@ config/www/techisb.ics
 config/www/*.html
 config/www/ics/*.ics
 config/www/events-*.html
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
