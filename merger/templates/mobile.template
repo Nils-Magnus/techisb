@@ -14,15 +14,7 @@
       <li class="list-group-item "><a href="{{ event.url }}">
               <a href="ics/{{ event.eventnumber }}.ics"><img src="https://cdnjs.cloudflare.com/ajax/libs/octicons/8.0.0/svg/calendar.svg" alt="Add to calendar">
                 <small class="text-muted">
-                  {% if event.is_today %}
-                    Today at {{ event.time }}
-                  {% else %}
-                    {% if event.is_tomorrow %}
-                      Tomorrow at {{ event.time }}
-                    {% else %}
-                      {{ event.date }} {{ event.time }}
-                    {% endif %}
-                  {% endif %}
+                  {% if event.is_today %}Today at {{ event.time }}{% else %}{% if event.is_tomorrow %}Tomorrow at {{ event.time }}{% else %}{{ event.date }} {{ event.time }}{% endif %}{% endif %}, {{ event.week_day }}
                 </small>
               </a>
           <div class="d-flex w-100 justify-content-between">

@@ -72,6 +72,7 @@ def merge_data(web_dir, json_dir):
     html_data, mobile_data, ics_data = itertools.tee(
             [dict(item,
                 eventnumber=sorted_events.index(item),
+                week_day=(_to_datetime(item['date'], item['time']).strftime("%A")),
                 is_today=(item['date'] == today_string),
                 is_tomorrow=(item['date'] == tomorrow_string)
                 )
