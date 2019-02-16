@@ -8,6 +8,7 @@ import itertools
 import pytz
 import glob
 import copy
+import os
 
 
 def merge_data(web_dir, json_dir):
@@ -62,7 +63,7 @@ def merge_data(web_dir, json_dir):
             events = events + json.loads(file.read())
 
     # sort them and provide two iterators for html and ical generation
-    future_events = filter(lambda x: _to_datetime(x['date'], x['time']) > now, events)
+    future_events = filter(lambda x: 'date' in x and _to_datetime(x['date'], x['time']) > now, events)
     sorted_events = sorted(future_events, key=lambda x: x['date'] + x['time'])
 
     today_string = now.date().strftime("%Y-%m-%d")
@@ -135,7 +136,10 @@ def merge_data(web_dir, json_dir):
 
 
 if __name__ == "__main__":
-    if (sys.argv[1] == 'shell'):
+    if (sys.argv[1] == 'inberlin'):
+        parameters = [os.path.expanduser('~') + '/websites/dirkgomez.de/techisb.de/',
+                      '../data/']
+    elif (sys.argv[1] == 'shell'):
         parameters = ['../config/www/',
                       '../data/']
     else:

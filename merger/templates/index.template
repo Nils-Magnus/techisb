@@ -14,7 +14,7 @@
   <body>
     <h1>Tech is Berlin</h1>
     <h2>All the relevant tech events in Germany's capital</h2>
-    <p>Too many events on too many sites? Don't look any further. Stuff that matters. Tech is Berlin! Subscribe to the <a href="https://techisb.de/techisb.ics">calendar feed</a>.</p>
+    <p>Too many events on too many sites? Don't look any further. Stuff that matters. Tech is Berlin! Subscribe to the <a href="techisb.ics">calendar feed</a>.</p>
     <p><a href="faq.html#contribute">How to get my events listed</a> and <a href="faq.html#idea">why are we doing this?</a>
     <div class="table-responsive-md">
       <table id="eventTable" class="table table-striped table-hover" cellspacing="0" width="100%">

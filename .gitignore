@@ -15,5 +15,6 @@ config/www/events-*.html
 [Ll]ocal
 [Ss]cripts
 pyvenv.cfg
+venv
 .venv
 pip-selfcheck.json
