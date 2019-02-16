@@ -3,12 +3,22 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if is_berlin %}
     <title>Tech is Berlin: All the relevant tech events in Berlin</title>
+    {% else %}
+    <title>Tech is Munich: All the relevant tech events in Munich</title>
+    {% endif %}
     <style>{% include 'templates/mobile.css' %}</style>
   </head>
   <body>
+    {% if is_berlin %}
     <h1>Berlin Tech events</h1>
-    <p>Subscribe to the <a href="https://techisb.de/techisb.ics">calendar feed</a>.
+    <h1>Tech is Berlin</h1>
+    <p>Subscribe to the <a href="techisb.ics">calendar feed</a>.</p>
+    {% else %}
+    <h1>Tech is Munich</h1>
+    <p>Subscribe to the <a href="techism.ics">calendar feed</a>.</p>
+    {% endif %}
     <ul class="list-group">
       {% for event in events %}
       <li class="list-group-item "><a href="{{ event.url }}">

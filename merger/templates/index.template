@@ -3,7 +3,11 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% if is_berlin %}
     <title>Tech is Berlin: All the relevant tech events in Berlin</title>
+    {% else %}
+    <title>Tech is Munich: All the relevant tech events in Munich</title>
+    {% endif %}
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -12,9 +16,15 @@
           href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
   </head>
   <body>
+    {% if is_berlin %}
     <h1>Tech is Berlin</h1>
     <h2>All the relevant tech events in Germany's capital</h2>
     <p>Too many events on too many sites? Don't look any further. Stuff that matters. Tech is Berlin! Subscribe to the <a href="techisb.ics">calendar feed</a>.</p>
+    {% else %}
+    <h1>Tech is Munich</h1>
+    <h2>All the relevant tech events in Munich</h2>
+    <p>Too many events on too many sites? Don't look any further. Stuff that matters. Tech is Munich! Subscribe to the <a href="techism.ics">calendar feed</a>.</p>
+    {% endif %}
     <p><a href="faq.html#contribute">How to get my events listed</a> and <a href="faq.html#idea">why are we doing this?</a>
     <div class="table-responsive-md">
       <table id="eventTable" class="table table-striped table-hover" cellspacing="0" width="100%">

@@ -11,20 +11,30 @@ import copy
 import os
 
 
-def merge_data(web_dir, json_dir):
+def merge_data(web_dir, json_dir, calendar_filename, is_berlin):
     def _to_datetime(date, time):
         return datetime.datetime.strptime(date + ' ' + time, '%Y-%m-%d %H:%M')
 
     def _calendar_header():
         # generate ical file
-        calendar = icalendar.Calendar({
-                'PRODID': '-//TechisBe//Berlin tech events//DE',
-                'METHOD': 'PUBLISH',
-                'VERSION': '2.0',
-                'X-WR-CALNAME': 'TechisB - Berlin tech events via https://techisb.de',
-                'X-WR-TIMEZONE': 'Europe/Berlin',
-                'X-WR-CALDESC': 'All the relevant Berlin tech events in one calendar'
-                })
+        if is_berlin:
+            calendar = icalendar.Calendar({
+                    'PRODID': '-//TechisB//Berlin tech events//DE',
+                    'METHOD': 'PUBLISH',
+                    'VERSION': '2.0',
+                    'X-WR-CALNAME': 'TechisB - Berlin tech events via https://techisb.de',
+                    'X-WR-TIMEZONE': 'Europe/Berlin',
+                    'X-WR-CALDESC': 'All the relevant Berlin tech events in one calendar'
+                    })
+        else:
+            calendar = icalendar.Calendar({
+                    'PRODID': '-//TechisM//Munich tech events//DE',
+                    'METHOD': 'PUBLISH',
+                    'VERSION': '2.0',
+                    'X-WR-CALNAME': 'TechisM - Munich tech events via https://techisb.de',
+                    'X-WR-TIMEZONE': 'Europe/Berlin',
+                    'X-WR-CALDESC': 'All the relevant Munich tech events in one calendar'
+                    })
 
         # Provide timezone info -
         # see https://github.com/collective/icalendar/blob/master/src/icalendar/tests/test_timezoned.py#L50
@@ -59,7 +69,7 @@ def merge_data(web_dir, json_dir):
     # read all events
     events = []
     for filename in glob.glob(json_dir + '/*.json'):
-        with open(filename) as file:
+        with open(filename, encoding='utf-8') as file:
             events = events + json.loads(file.read())
 
     # sort them and provide two iterators for html and ical generation
@@ -82,7 +92,7 @@ def merge_data(web_dir, json_dir):
     with open('templates/index.template', 'r') as template_file, open(web_dir + 'index.html', 'w') as output_file:
         events_template = Template(template_file.read().strip())
         output_file.write(htmlmin.minify(
-            events_template.render(events=html_data, now=now),
+            events_template.render(events=html_data, now=now, is_berlin=is_berlin),
             remove_comments=True, remove_empty_space=True
             )
         )
@@ -91,7 +101,7 @@ def merge_data(web_dir, json_dir):
     with open(web_dir + 'mobile.html', 'w') as output_file:
         events_template = jinja_environment.get_template('templates/mobile.template')
         output_file.write(htmlmin.minify(
-            events_template.render(events=mobile_data, now=now),
+            events_template.render(events=mobile_data, now=now, is_berlin=is_berlin),
             remove_comments=True, remove_empty_space=True
             )
         )
@@ -132,18 +142,19 @@ def merge_data(web_dir, json_dir):
         with open(web_dir + 'ics/' + str(this_event['eventnumber']) + '.ics', 'wb') as output_file:
             output_file.write(this_events_calendar.to_ical())
 
-    with open(web_dir + 'techisb.ics', 'wb') as output_file:
+    with open(web_dir + calendar_filename, 'wb') as output_file:
         output_file.write(calendar.to_ical())
 
 
 if __name__ == "__main__":
     if (sys.argv[1] == 'inberlin'):
         parameters = [os.path.expanduser('~') + '/websites/dirkgomez.de/techisb.de/',
-                      '../data/']
-    elif (sys.argv[1] == 'shell'):
-        parameters = ['../config/www/',
-                      '../data/']
-    else:
-        parameters = ['/config/www/',
-                      '/data/']
+                      '../data/',
+                      'techisb.ics',
+                      True]
+    elif (sys.argv[1] == 'inberlinmunich'):
+        parameters = [os.path.expanduser('~') + '/websites/dirkgomez.de/techism.de/',
+                      '../data/',
+                      'techism.ics',
+                      False]
     merge_data(*parameters)

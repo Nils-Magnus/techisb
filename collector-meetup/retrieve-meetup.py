@@ -14,7 +14,6 @@ def retrieve_meetup_events():
     resp = requests.get(req, params={"key": apikey})
 
     if (resp.ok):
-
         events = json.loads(resp.content)["events"]
 
         for event in events:
@@ -22,8 +21,10 @@ def retrieve_meetup_events():
             event['time'] = event['local_time']
             event['organizer'] = event['group']['name']
             event['url'] = event['link']
-            if 'venue' in event:
+            if 'venue' in event and 'address_1' in event['venue']:
                 event['venue']['address'] = event['venue']['address_1']
+            else:
+                event['venue'] = {'address': None }
 
         print(json.dumps(events, indent=4, sort_keys=True))
 
