@@ -124,7 +124,7 @@ def merge_data(web_dir, json_dir, calendar_filename, is_berlin):
             duration = this_event['duration']
             event.add('dtend', starttime + datetime.timedelta(milliseconds=duration))
         elif 'endtime' in this_event:
-            event.add('dtend', berlin_timezone.localize(_to_datetime(this_event['date'], this_event['enenddtime'])))
+            event.add('dtend', berlin_timezone.localize(_to_datetime(this_event['date'], this_event['endtime'])))
         event.add('dtstamp', dtstamp)
 
         event.add('organizer', this_event['organizer'])
