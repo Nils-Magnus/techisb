@@ -2,6 +2,7 @@ import requests
 import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 import json
+import datetime
 
 
 class InberlinHTMLParser(HTMLParser):
@@ -29,14 +30,16 @@ class InberlinHTMLParser(HTMLParser):
 
 # import code; code.interact(local=dict(globals(), **locals()))
 
+
 def retrieve_inberlin_events():
     def dedup_dict_list(list_of_dicts: list, columns: list) -> list:
-        return list({''.join(row[column] for column in columns): row
-                for row in list_of_dicts}.values())
+        return list({''.join(row[column] for column in columns): row for row in list_of_dicts}.values())
 
     api = "https://user.in-berlin.de/vrkalender/export/atom-subscribe.php?uid=&sid=5095c2027826b&rid=&icskey=in-berlin"
 
     response = requests.get(api)
+
+    today = datetime.datetime.now()
 
     if (response.ok):
 
@@ -66,14 +69,15 @@ def retrieve_inberlin_events():
                 elif entry_data.tag == '{http://www.w3.org/2005/Atom}id':
                     event['id'] = entry_data.text
 
-            if event['name'] not in ['IN-Berlin-Aktiventreffen']:
+            eventdate = datetime.datetime.strptime(event['date'], '%Y-%m-%d')
+            if ((eventdate - today).days < 15) and event['name'] not in ['IN-Berlin-Aktiventreffen']:
                 events.append(event)
 
         print(json.dumps(dedup_dict_list(events, ['id']), indent=4, sort_keys=True))
     else:
+        print("Oh, no, too bad we received a HTTP {0} status.".format(response.status_code))
+        response.raise_for_status()
 
-        print("Oh, no, too bad we received a HTTP {0} status.".format(resp.status_code))
-        resp.raise_for_status()
 
 if __name__ == "__main__":
     retrieve_inberlin_events()
