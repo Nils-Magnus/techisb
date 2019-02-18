@@ -3,10 +3,11 @@ from git import Repo
 import os
 import yaml
 import shutil
-
+import sys
 # import code; code.interact(local=dict(globals(), **locals()))
 
-def retrieve_curated():
+
+def retrieve_curated(remote, local):
     remote = "https://github.com/techisb/curated"
     local = '/tmp/curated/'
     shutil.rmtree(local, ignore_errors=True)
@@ -25,5 +26,9 @@ def retrieve_curated():
     shutil.rmtree(local, ignore_errors=True)
     print(json.dumps(all_events, indent=4, sort_keys=True, default=str))
 
+
 if __name__ == "__main__":
-    retrieve_curated()
+    if sys.argv[1] == 'berlin':
+        retrieve_curated('https://github.com/techisb/curated', '/tmp/curated/')
+    elif sys.argv[1] == 'munich':
+        retrieve_curated('https://github.com/techisb/curated-munich', '/tmp/curated-munich/')

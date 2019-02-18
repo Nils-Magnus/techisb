@@ -7,7 +7,6 @@ import sys
 import itertools
 import pytz
 import glob
-import copy
 import os
 
 
@@ -81,11 +80,11 @@ def merge_data(web_dir, json_dir, calendar_filename, is_berlin):
 
     html_data, mobile_data, ics_data = itertools.tee(
             [dict(item,
-                eventnumber=sorted_events.index(item),
-                week_day=(_to_datetime(item['date'], item['time']).strftime("%A")),
-                is_today=(item['date'] == today_string),
-                is_tomorrow=(item['date'] == tomorrow_string)
-                )
+                  eventnumber=sorted_events.index(item),
+                  week_day=(_to_datetime(item['date'], item['time']).strftime("%A")),
+                  is_today=(item['date'] == today_string),
+                  is_tomorrow=(item['date'] == tomorrow_string)
+                  )
                 for item in sorted_events], 3)
 
     # generate html file
@@ -123,7 +122,9 @@ def merge_data(web_dir, json_dir, calendar_filename, is_berlin):
         duration = 3600000  # one hour
         if 'duration' in this_event:
             duration = this_event['duration']
-        event.add('dtend', starttime + datetime.timedelta(milliseconds=duration))
+            event.add('dtend', starttime + datetime.timedelta(milliseconds=duration))
+        elif 'endtime' in this_event:
+            event.add('dtend', berlin_timezone.localize(_to_datetime(this_event['date'], this_event['enenddtime'])))
         event.add('dtstamp', dtstamp)
 
         event.add('organizer', this_event['organizer'])
